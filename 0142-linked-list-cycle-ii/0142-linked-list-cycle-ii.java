@@ -1,7 +1,6 @@
 //TC-0(N)
-//SC-0(N)
-//BRUTE FORCE
-
+//SC-0(1)
+//OPTIMIZED
 /**
  * Definition for singly-linked list.
  * class ListNode {
@@ -15,14 +14,23 @@
  */
 public class Solution {
     public ListNode detectCycle(ListNode head) {
-        HashSet<ListNode> st=new HashSet<>();
-        ListNode temp=head;
-        while(temp!=null){
-            if(st.contains(temp)){
-                return temp;
+        if(head==null || head.next==null){
+            return null;
+        }
+        ListNode curr=head;
+        ListNode slow=head,fast=head,entry=head;
+        
+        while(fast.next!=null && fast.next.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+            
+            if(slow==fast){
+                while(entry!=slow){
+                    entry=entry.next;
+                    slow=slow.next;
+                }
+                return slow;//return entry as both r same;
             }
-            st.add(temp);
-            temp=temp.next;
         }
         return null;
     }
