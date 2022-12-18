@@ -1,4 +1,3 @@
-//for interview use class format
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -15,26 +14,24 @@
  * }
  */
 class Solution {
-    public class Pair{
-        int forwardslope=-1;//   /->forward    taken -1 as we are counting nodes
-        int backwardslope=-1;//  \->backward
-        int maxlength=0;
-    }
     public int longestZigZag(TreeNode root) {
-        Pair ans=longestZigZag_(root);
-        return ans.maxlength;
+        int[] ans=longestZigZag_(root);
+        return ans[2];
     }
-    public Pair longestZigZag_(TreeNode node){
-        if(node==null)  return new Pair();
+    public int[] longestZigZag_(TreeNode node){
+        if(node==null)  return new int[]{-1,-1,0};
         
-        Pair lchild=longestZigZag_(node.left);
-        Pair rchild=longestZigZag_(node.right);
+        //index 0 mee we are storing forwardslope "/"
+        //index 1 mee we are storing backwardslope "\"
+        //index 2 mee we are storing maxlength
         
-        Pair myans=new Pair();
-        myans.maxlength=Math.max(Math.max(lchild.maxlength,rchild.maxlength),Math.max(lchild.backwardslope,rchild.forwardslope)+1);
-        myans.forwardslope=lchild.backwardslope+1;
-        myans.backwardslope=rchild.forwardslope+1;
+        int[] lchild=longestZigZag_(node.left);
+        int[] rchild=longestZigZag_(node.right);
         
+        int[] myans=new int[3];
+        myans[0]=lchild[1]+1;//forward
+        myans[1]=rchild[0]+1;//backward
+        myans[2]=Math.max(Math.max(lchild[2],rchild[2]),Math.max(lchild[1],rchild[0])+1);
         return myans;
     }
 }
