@@ -1,6 +1,6 @@
-//TC-0(NLOGN)
-//SC-0(1)
-
+// Quick Sort In a Linked List 
+// Best Case nlogn,worst case is n2
+// space logn
 /**
  * Definition for singly-linked list.
  * public class ListNode {
@@ -13,47 +13,82 @@
  */
 class Solution {
     public ListNode sortList(ListNode head) {
+        return quicksort_(head)[0];
+    }
+    public ListNode[] quicksort_(ListNode head){
         if(head==null || head.next==null){
-            return head;
+            return new ListNode[]{head,head};
         }
-        ListNode mid=middle(head);
-        ListNode nhead=mid.next;
-        mid.next=null;
+        int len=getLength(head);
+        int mid=len/2;
         
-        ListNode fsh=sortList(head);
-        ListNode ssh=sortList(nhead);
+        ListNode[] segragatedlist=segragate(head,mid);
         
-        return merge2LL(fsh,ssh);
+        ListNode[] leftsortedhalf=quicksort_(segragatedlist[0]);
+        ListNode[] rightsortedhalf=quicksort_(segragatedlist[2]);
+        
+        return mergeTwoSortedList(leftsortedhalf,segragatedlist[1],rightsortedhalf);
     }
-    public ListNode middle(ListNode node){
-        if(node==null || node.next==null){
-            return node;
-        }
-        ListNode slow=node,fast=node;
-        while(fast.next!=null && fast.next.next!=null){
-            slow=slow.next;
-            fast=fast.next.next;
-        }
-        return slow;
-    }
-    public ListNode merge2LL(ListNode l1,ListNode l2){
-        if(l1==null || l2==null){
-            return l1!=null?l1:l2;
-        }
-        ListNode dummy=new ListNode(-1);
-        ListNode previous=dummy;
+    public ListNode[] segragate(ListNode head,int pivotIdx){
+        ListNode small=new ListNode(-1);
+        ListNode big=new ListNode(-1);
         
-        while(l1!=null && l2!=null){
-            if(l1.val<l2.val){
-                previous.next=l1;
-                l1=l1.next;
-            }else{
-                previous.next=l2;
-                l2=l2.next;
+        ListNode sm=small,bg=big,curr=head,pivotNode=head;;
+        
+        while(pivotIdx-->0){
+            pivotNode=pivotNode.next;
+        }        
+        while(curr!=null){
+            if(curr!=pivotNode){
+                if(curr.val<=pivotNode.val){
+                    sm.next=curr;
+                    sm=sm.next;
+                }else{
+                    bg.next=curr;
+                    bg=bg.next;
+                }
             }
-            previous=previous.next;
+            curr=curr.next;
         }
-        previous.next=(l1!=null)?l1:l2;
-        return dummy.next;
+        sm.next=null;
+        bg.next=null;
+        pivotNode.next=null;
+        
+        return new ListNode[]{small.next,pivotNode,big.next};
+    }
+    public int getLength(ListNode node){
+        if(node==null)  return 0;
+        int len=0;
+        ListNode curr=node;
+        while(curr!=null){
+            curr=curr.next;
+            len++;
+        }
+        return len;
+    }
+    public ListNode[] mergeTwoSortedList(ListNode[] leftsorted,ListNode pivot,ListNode[] rightsorted){
+        ListNode head=null,tail=null;
+        if(leftsorted[0]!=null && rightsorted[0]!=null){
+            leftsorted[1].next=pivot;
+            pivot.next=rightsorted[0];
+            
+            head=leftsorted[0];
+            tail=rightsorted[1];            
+        }else if(leftsorted[0]!=null){
+            head=leftsorted[0];
+            
+            leftsorted[1].next=pivot;
+                
+            tail=pivot; 
+        }else if(rightsorted[0]!=null){
+            head=pivot;
+            
+            pivot.next=rightsorted[0];
+                
+            tail=rightsorted[1]; 
+        }else{
+            head=tail=pivot;
+        }
+        return new ListNode[]{head,tail};
     }
 }
