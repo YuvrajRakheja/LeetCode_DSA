@@ -1,5 +1,6 @@
-//https://www.youtube.com/watch?v=klXjnz8zn2E&list=PL-Jc9J83PIiHgjQ9wfJ8w-rXU368xNX4L&index=7
-
+//using morris traversal
+//Tc-0(n)
+//sc-0(1)
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -16,18 +17,34 @@
  * }
  */
 class Solution {
-    public TreeNode prev=null;
     public boolean isValidBST(TreeNode root) {
-        if(root==null){
-            return true;
+        TreeNode curr=root,prev=null;
+        
+        while(curr!=null){
+            if(curr.left==null){
+                if(prev!=null && prev.val>=curr.val){
+                    return false;
+                }
+                prev=curr;
+                curr=curr.right;
+            }else{
+                TreeNode rightmost=curr.left;
+                while(rightmost.right!=null && rightmost.right!=curr){
+                    rightmost=rightmost.right;
+                }
+                if(rightmost.right==null){//form links
+                    rightmost.right=curr;
+                    curr=curr.left;
+                }else{
+                    rightmost.right=null;
+                    if(prev.val>=curr.val){
+                        return false;
+                    }
+                    prev=curr;
+                    curr=curr.right;
+                }
+            }
         }
-        if(!isValidBST(root.left))  return false;
-        
-        if(prev!=null && prev.val>=root.val)    return false;
-        
-        prev=root;
-        
-        if(!isValidBST(root.right)) return false;
         return true;
     }
 }
