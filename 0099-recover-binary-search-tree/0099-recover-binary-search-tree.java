@@ -1,6 +1,7 @@
 //TC-0(N)
-//SC-0(1)
-//MORRIS TRAVERSAL
+//SC-0(N)
+//RECURSIVE
+//MOST OPTIMIZED ONE IS MORRIS AS IT HAS 0(1) SC
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -17,45 +18,24 @@
  * }
  */
 class Solution {
+    TreeNode prev=null,first=null,second=null;
     public void recoverTree(TreeNode root) {
-        TreeNode curr=root,a=null,b=null,prev=null;
+        inorder(root);
+        int temp=first.val;
+        first.val=second.val;
+        second.val=temp;
+    }
+    public void inorder(TreeNode root){
+        if(root==null)  return;
         
-        while(curr!=null){
-            TreeNode leftnode=curr.left;
-            if(leftnode==null){
-                if(prev!=null && prev.val>=curr.val){
-                    if(a==null){
-                        a=prev;
-                    }
-                    b=curr;
-                }
-                prev=curr;
-                curr=curr.right;
-            }else{
-                TreeNode right_most=leftnode;
-                while(right_most.right!=null && right_most.right!=curr){
-                    right_most=right_most.right;
-                }
-                if(right_most.right==null){
-                    right_most.right=curr;
-                    curr=curr.left;
-                }else{
-                    right_most.right=null;
-                    if(prev.val>=curr.val){
-                        if(a==null){
-                            a=prev;
-                        }
-                        b=curr;
-                    }
-                    prev=curr;
-                    curr=curr.right;
-                }
+        inorder(root.left);
+        if(prev!=null && prev.val>=root.val){
+            if(first==null){
+               first=prev; 
             }
+            second=root;
         }
-        if(a!=null){
-            int temp=a.val;
-            a.val=b.val;
-            b.val=temp;
-        }
+        prev=root;
+        inorder(root.right);
     }
 }
