@@ -80,38 +80,37 @@ class GfG
         return buildtree(0,inord.length-1,inord,level);
     }
     Node buildtree(int isi,int iei,int[] inorder,int[] levelorder){
-        if(isi>iei){
-            return null;
-        }
+        if(isi>iei) return null;
         Node root=new Node(levelorder[0]);
         if(levelorder.length==1)    return root;
-        
+    
         int idx=0;
-        while(levelorder[0]!=inorder[idx]){
+        while(root.data!=inorder[idx]){
             idx++;
         }
         HashSet<Integer> set=new HashSet<>();
-        for(int i=isi;i<idx;i++){
-            set.add(inorder[i]);
-        }
-        int[] loflst=new int[idx-isi];//level order of left subtree
-        int[] lorst=new int[iei-idx];//level order of right subtree
+        for(int i=isi;i<idx;i++)    set.add(inorder[i]);
+        
+        int[] loflst=new int[idx-isi];
+        int[] lofrst=new int[iei-idx];
         int li=0,ri=0;
         
         for(int i=1;i<levelorder.length;i++){
             int ele=levelorder[i];
-            if(set.size()!=0 && set.contains(ele)){
+            if(set.size()>0 && set.contains(ele)){
                 loflst[li++]=ele;
                 set.remove(ele);
             }else{
-                lorst[ri++]=ele;
+                lofrst[ri++]=ele;
             }
         }
-        root.left=buildtree(isi,idx-1,inorder,loflst);
-        root.right=buildtree(idx+1,iei,inorder,lorst);
         
+        root.left=buildtree(isi,idx-1,inorder,loflst);
+        root.right=buildtree(idx+1,iei,inorder,lofrst);
         return root;
     }
+    
+    
    
 }
 
