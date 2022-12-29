@@ -19,7 +19,7 @@ class Solution {
         if(preorder == null) {
             return null;
         }
-        idx=0;
+       // idx=0;
         int lr=-(int)1e9-1;
         int rr=(int)1e9+1;
         return bstpreorder(preorder,lr,rr);
