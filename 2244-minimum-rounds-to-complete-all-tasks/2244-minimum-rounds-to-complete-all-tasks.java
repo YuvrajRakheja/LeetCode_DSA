@@ -9,15 +9,11 @@ class Solution {
         
         int ans=0;
         
-        for(Map.Entry<Integer,Integer> entry:map.entrySet()){
-            int freq=entry.getValue();
-            
-            if(freq==1){ //we would not be able to complete all tasks as we do only 2 or 3
+        for(int freq:map.values()){
+            if(freq==1){
                 return -1;
-            }else if(freq%3!=0){ //of form 3p+1 or 3p+2
-                ans+=freq/3+1;
             }else{
-                ans+=freq/3;
+                ans+=(freq+2)/3;//it will adjust when freq is of form 3p,3p+1,3p+2.It will include of 3p+1,3p+2 and when we add 2 and divide by 3 it is equal to freq/3+1 otherwise simply if it is 3p and if we add 2 and divide by 3 it is same
             }
         }
         return ans;        
