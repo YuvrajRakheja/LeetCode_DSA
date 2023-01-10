@@ -15,13 +15,15 @@
  */
 class Solution {
     public boolean isSameTree(TreeNode p, TreeNode q) {
-        if(p == null && q == null)
-            return true;
-        if(p == null || q == null)
-            return false;
-        if(p.val != q.val) 
-            return false;
-        return isSameTree(p.left,q.left) && isSameTree(p.right,q.right);   
+        return checktree(p,q);
+    }
+    public boolean checktree(TreeNode p,TreeNode q){
+        if(p==null && q==null)  return true;
+        
+        if(p==null || q==null)  return false;
+        
+        if(p.val!=q.val)    return false;
+        
+        return checktree(p.left,q.left) && checktree(p.right,q.right);
     }
 }
-      
