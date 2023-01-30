@@ -1,10 +1,8 @@
-//TC-0(LOGN)
+//TC-0(1)
 //SC-0(1)
-//RECURSION
+//BITS
 class Solution {
     public boolean isPowerOfTwo(int n) {
-        if(n<=0) return false;
-        
-        return n>0 && ((n==1)|| n%2==0 && isPowerOfTwo(n/2));
+        return n>0 && ((n&(n-1))==0);
     }
 }
