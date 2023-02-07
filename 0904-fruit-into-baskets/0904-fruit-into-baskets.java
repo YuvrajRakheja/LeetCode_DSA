@@ -8,7 +8,7 @@ class Solution {
             
             map.put(fruits[i],map.getOrDefault(fruits[i],0)+1);
             
-            if(map.size()>2){
+            while(map.size()>2){
                 if(map.get(fruits[j])==1){
                     map.remove(fruits[j]);
                 }else{
