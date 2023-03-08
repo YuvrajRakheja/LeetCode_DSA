@@ -1,25 +1,32 @@
+//SIMILIAR TO LC 402
 class Solution {
     public int[] mostCompetitive(int[] nums, int k) {
-        int[] ans=new int[k];
+        return removekdigits(nums,nums.length-k);//k chahiye toh n-k remove krdo
+    }
+    public int[] removekdigits(int[] nums,int k){
         Stack<Integer> st=new Stack<>();
-        int n=nums.length;
         
-        for(int i=0;i<n;i++){
-            //valid-->remaining >= requirement
-            //requirement-->k-st.size();
-            //remaining-->n-(i+1)
-            
-            while(!st.isEmpty() && st.peek()>nums[i] && n-i-1>=k-st.size()){
+        for(int i=0;i<nums.length;i++){
+            while(!st.isEmpty() && k>0 && st.peek()>nums[i]){
                 st.pop();
+                k--;
             }
-            if(st.size()<k){
-                st.push(nums[i]);
-            }
+            st.push(nums[i]);
         }
-        int i=k-1;
         
-        while(i>=0) ans[i--]=st.pop();
+        while(k>0){
+            st.pop();
+            k--;
+        }
         
+        int[] ans=new int[st.size()];
+        int i=ans.length-1;
+        
+        //no need to remove leading zeroes
+        
+        while(i>=0){
+            ans[i--]=st.pop();
+        }
         return ans;
     }
 }
