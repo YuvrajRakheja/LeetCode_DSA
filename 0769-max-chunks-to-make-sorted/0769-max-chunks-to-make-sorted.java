@@ -1,17 +1,26 @@
 //TC-0(N)
-//SC-0(1)
-//OPTIMIZED
+//SC-0(N)
+//BRUTE
 class Solution {
     public int maxChunksToSorted(int[] arr) {
-        int max_till_now=0;
+        int[] left=new int[arr.length];
+        int[] right=new int[arr.length];
+        
         int count=0;
         
-        for(int i=0;i<arr.length;i++){
-            
-            max_till_now=Math.max(max_till_now,arr[i]);
-                
-            if(i==max_till_now) count++;
+        left[0]= arr[0];
+        for(int i=1;i<left.length;i++){//left maximum
+            left[i]=Math.max(left[i-1],arr[i]);
         }
-        return count;
+        
+        right[right.length-1]=arr[arr.length-1];
+        for(int i=right.length-2;i>=0;i--){//right minimum
+            right[i]=Math.min(right[i+1],arr[i]);
+        }
+        
+        for(int i=0;i<arr.length-1;i++){
+            if(left[i]<=right[i+1])  count++;
+        }
+        return count+1;
     }
 }
