@@ -1,27 +1,22 @@
 //TC-0(N)
-//SC-0(2N)
-//BRUTE
+//SC-0(1)
 class Solution {
     public int[] productExceptSelf(int[] nums) {
-        int[] right=new int[nums.length];
-        int[] left=new int[nums.length];
+        int[] res=new int[nums.length];
+        int prd=1;
         
-        int[] ans=new int[nums.length];
+        res[0]=1;
+        for(int i=1;i<nums.length;i++){
+            prd*=nums[i-1];
+            res[i]=prd;
+        }//indirectly calculating left product of i-1 elements for ith index
         
-        left[0]=1;
-        for(int i=1;i<left.length;i++){
-            left[i]=left[i-1]*nums[i-1]; 
-        }//for i index element finding multiplication of all i-1 elements
+        prd=1;
         
-        right[nums.length-1]=1;
-        for(int i=right.length-2;i>=0;i--){
-            right[i]=right[i+1]*nums[i+1]; 
-        }//for i index element finding multiplication of all i+1 elements
-        
-        for(int i=0;i<ans.length;i++){
-            ans[i]=left[i]*right[i];
+        for(int i=nums.length-2;i>=0;i--){
+            prd*=nums[i+1];//indirectly calculating right product
+            res[i]*=prd;
         }
-        
-        return ans;
+        return res;
     }
 }
