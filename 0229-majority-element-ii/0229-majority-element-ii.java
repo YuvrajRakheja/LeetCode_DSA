@@ -1,5 +1,5 @@
 //BRUTE FORCE
-//TC-0(N^2)
+//TC-0(Nlogn)  if we use arrays then it will n
 //SC-O(N)
 
 class Solution {
@@ -9,17 +9,14 @@ class Solution {
             ans.add(nums[0]);
             return ans;
         }
+        HashMap<Integer,Integer> freq=new HashMap<>();
+        
         for(int i=0;i<nums.length;i++){
-            int cnt=1;
-            for(int j=i+1;j<nums.length;j++){
-                if(nums[i]==nums[j]){
-                    cnt++;
-                }
-            }
-            if(cnt>(nums.length/3)){
-                    if(!ans.contains(nums[i])){
-                        ans.add(nums[i]);
-                    }
+            freq.put(nums[i],freq.getOrDefault(nums[i],0)+1);    //Nice method to increase frequency as we traverse
+        }
+        for(int key:freq.keySet()){
+            if(freq.get(key)>(nums.length/3)){
+                ans.add(key);
             }
         }
         return ans;
