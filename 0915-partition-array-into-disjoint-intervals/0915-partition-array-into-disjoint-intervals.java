@@ -1,25 +1,19 @@
-//TC-0(2N)
-//SC-0(N)
+//TC-0(N)
+//SC-0(1)
+
 class Solution {
     public int partitionDisjoint(int[] nums) {
-        int[] rightmin=new int[nums.length+1];
+        int greater=nums[0],leftmax=nums[0];
+        int idx=0;
         
-        rightmin[nums.length]=Integer.MAX_VALUE;
-        
-        for(int i=nums.length-1;i>=0;i--){
-            rightmin[i]=Math.min(nums[i],rightmin[i+1]);
-        }
-        
-        int leftmax=Integer.MIN_VALUE;
-        int ans=0;
-        for(int i=0;i<nums.length;i++){
-            leftmax=Math.max(nums[i],leftmax);
-            
-            if(leftmax<=rightmin[i+1]){
-                ans=i;
-                break;
+        for(int i=1;i<nums.length;i++){
+            if(nums[i]>greater){
+                greater=nums[i];
+            }else if(nums[i]<leftmax){
+                idx=i;//matlab pakka hai ki yeh include hoga
+                leftmax=greater;
             }
         }
-        return ans+1;//ans+1 beacsue hum right ka first index return kr rhe hai
+        return idx+1;        
     }
 }
