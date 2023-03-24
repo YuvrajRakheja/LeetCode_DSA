@@ -13,15 +13,15 @@ class Solution {
         }
         
         int maxindx=0;
-        int initial=-1;
+        int initial=0;
         
         //making of result
         for(int i=0;i<s.length();i++){
             maxindx=Math.max(lastindex[s.charAt(i)-'a'],maxindx);
             
             if(maxindx==i){
-                ans.add(i-initial);
-                initial=i;
+                ans.add(i-initial+1);
+                initial=i+1;
             }
         }
         return ans;
