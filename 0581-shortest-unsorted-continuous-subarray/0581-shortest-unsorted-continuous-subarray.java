@@ -1,32 +1,26 @@
+//TC-0(N)
+//SC-0(1)
+//OPTIMIZED
 class Solution {
     public int findUnsortedSubarray(int[] nums) {
-        int low=0;
+        int l=0,maxn=0,r=nums.length-1,minn=nums.length-1;
+        int n=nums.length;
         
-        while(low+1<nums.length && nums[low]<=nums[low+1]){//finding right where order gets distorted
-            low++;
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]>nums[maxn]){
+                maxn=i;
+            }else if(nums[maxn]>nums[i]){
+                l=i;
+            }
+            if(nums[n-1-i]<nums[minn]){
+                minn=n-1-i;
+            }else if(nums[n-1-i]>nums[minn]){
+                r=n-1-i;
+            }
         }
-        int high=nums.length-1;
-        
-        while(high-1>=0 && nums[high]>=nums[high-1]){//finding right where order gets distorted
-            high--;
+        if(l<=r){
+            return 0;
         }
-        
-        if(low==nums.length-1)  return 0;//agar already sorted toh answer 0 hoga
-        
-        int wmin=Integer.MAX_VALUE;
-        int wmax=Integer.MIN_VALUE;
-        
-        for(int i=low;i<=high;i++){
-            wmin=Math.min(wmin,nums[i]);
-            wmax=Math.max(wmax,nums[i]);
-        }//humne potential subarray ka min aur max nikala hai
-        
-        while(low-1>=0 && nums[low-1]>wmin){
-            low--;
-        }
-        while(high+1<nums.length && nums[high+1]<wmax){
-            high++;
-        }
-        return high-low+1;
+        return l-r+1;
     }
 }
