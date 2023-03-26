@@ -11,9 +11,9 @@ class Solution {
         // int real_part=a*c-b*d;
         // int imag_part=b*c+a*d;
         
-        sb.append(a*c-b*d);
-        sb.append('+'+"");
-        sb.append(b*c+a*d);
+        sb.append((a*c-b*d));
+        sb.append('+');
+        sb.append((b*c+a*d));
         sb.append('i');
         
         return sb.toString();
