@@ -1,26 +1,38 @@
-//TC-0(N^2)
+//TC-0(N)
 //SC-0(N)
-//BRUTE FORCE
+//OPTIMIZED
 class Solution {
-    public int maximumSwap(int num) {
-        char[] digit=Integer.toString(num).toCharArray();
-        int ans=num;
+    public int maximumSwap(int num){
         
-        for(int i=0;i<digit.length;i++){
-            for(int j=i+1;j<digit.length;j++){
-                if(digit[j]-'0' > digit[i]-'0'){
-                    char temp=digit[i];
-                    digit[i]=digit[j];
-                    digit[j]=temp;
-                    
-                    ans=Math.max(ans,Integer.valueOf(String.valueOf(digit)));
-                    //we are swaping once and updating ans and then nullifying the effect of swap so that it can be changed and tested for next set
-                    temp=digit[i];
-                    digit[i]=digit[j];
-                    digit[j]=temp;
+        char[] arr=Integer.toString(num).toCharArray();
+        //1.Prepare last index of digits
+        int[] freq=new int[10];
+        
+        for(int i=0;i<arr.length;i++){
+            int digit=arr[i]-'0';
+            freq[digit]=i;
+        }
+        //2.figure out index for swapping
+        boolean flag=false;
+        
+        for(int i=0;i<arr.length;i++){
+            int digit=arr[i]-'0';
+            for(int j=9;j>digit;j--){
+                if(i<freq[j]){
+                    char temp=arr[i];
+                    arr[i]=arr[freq[j]];
+                    arr[freq[j]]=temp;
+                    flag=true;
+                    break;
                 }
             }
+            if(flag)    break;
         }
-        return ans;
+        
+        StringBuilder sb=new StringBuilder();
+        for(int i=0;i<arr.length;i++){
+            sb.append(arr[i]);
+        }
+        return Integer.parseInt(sb.toString());
     }
 }
