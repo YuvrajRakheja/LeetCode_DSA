@@ -1,19 +1,21 @@
+//TC-0(NLOGN)
+//SC-0(1)
 class Solution {
     public int numRescueBoats(int[] people, int limit) {
         Arrays.sort(people);
-        int i=0,j=people.length-1;
-        int min_boats=0;
+        int left=0,right=people.length-1;
+        int ans=0;
         
-        while(i<=j){
-            if(people[i]+people[j]<=limit){
-                min_boats++;
-                i++;
-                j--;
-            }else{//people[i]+people[j]>limit  toh bhari wale ko bitha do
-                min_boats++;
-                j--;
+        while(left<=right){
+            if(people[left]+people[right]>limit){
+                ans++;
+                right--;
+            }else{
+                ans++;
+                left++;
+                right--;
             }
         }
-        return min_boats;
+        return ans;
     }
 }
