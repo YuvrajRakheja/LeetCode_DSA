@@ -30,9 +30,9 @@ class GFG
 }
 // } Driver Code Ends
 
-//TC-0(N+N)
+//TC-0(N)
 //SC-0(N)
-//Memoization
+//Tabulation
 class Solution
 {
     //Function to find the maximum money the thief can get.
@@ -43,23 +43,11 @@ class Solution
         for(int i=0;i<n;i++){
             dp[i]=-1;
         }
-        int ans=helper(arr,n-1,dp);
-        return ans;
-    }
-    public int helper(int[] arr,int idx,int[] dp){
-        if(idx==0){
-            return arr[idx];
-        }
-        if(idx<0){
-            return 0;
-        }
-        if(dp[idx]!=-1){
-            return dp[idx];
-        }
-        int notpick=helper(arr,idx-1,dp)+0;
+        dp[0]=arr[0];
         
-        int pick=helper(arr,idx-2,dp)+arr[idx];
-        
-        return dp[idx]=Math.max(pick,notpick);
+        for(int i=1;i<n;i++){
+            dp[i]=Math.max(dp[i-1]+0,arr[i]+((i>1)?dp[i-2]:0));
+        }
+        return dp[n-1];
     }
 }
