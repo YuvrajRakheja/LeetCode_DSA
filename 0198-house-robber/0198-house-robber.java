@@ -1,18 +1,21 @@
 //TC-0(N)
-//SC-0(N)
-//Tabulation
+//SC-0(1)
+//Space Optimization
 class Solution {
     public int rob(int[] nums) {
         int[] dp=new int[nums.length];
         Arrays.fill(dp,-1);
-        dp[0]=nums[0];
+        int prev=nums[0],prev2=0;
         
         for(int i=1;i<nums.length;i++){
-            int take=nums[i]+((i>1)?dp[i-2]:0);
-            int nottake=0+dp[i-1];
+            int take=nums[i]+((i>1)?prev2:0);
+            int nottake=0+prev;
             
-            dp[i]=Math.max(take,nottake);
+            int curr=Math.max(take,nottake);
+            
+            prev2=prev;
+            prev=curr;
         }
-        return dp[nums.length-1];
+        return prev;
     }
 }
