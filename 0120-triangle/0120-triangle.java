@@ -1,21 +1,27 @@
 //TC-0(N*N) 
-//SC-0(N*N) 
-//TABULATION 
+//SC-0(N) 
+//SPACE OPTIMIZED 
 class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
-        int[][] dp=new int[triangle.size()][triangle.size()];
+        
         int row=triangle.size(),col=triangle.size();
         
+        int[] front=new int[col];
+        int[] curr=new int[col];
+        
         for(int j=0;j<col;j++){
-            dp[row-1][j]=triangle.get(row-1).get(j);
+            front[j]=triangle.get(row-1).get(j);
         }
         for(int i=row-2;i>=0;i--){
             for(int j=i;j>=0;j--){
-                int down=triangle.get(i).get(j)+dp[i+1][j];
-                int down_right=triangle.get(i).get(j)+dp[i+1][j+1];
-                dp[i][j]=Math.min(down,down_right);
+                int down=triangle.get(i).get(j)+front[j];
+                int down_right=triangle.get(i).get(j)+front[j+1];
+                
+                curr[j]=Math.min(down,down_right);
             }
+            front=curr;
+            curr=new int[col];
         }
-        return dp[0][0];
+        return front[0];
     }
 }
