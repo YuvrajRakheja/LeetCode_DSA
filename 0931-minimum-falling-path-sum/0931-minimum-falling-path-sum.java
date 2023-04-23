@@ -1,40 +1,40 @@
-//TC-0(N^N)
-//SC-0(N*N+N)//DP SPACE+AUXILLIARY STACK SPACE
-//MEMOIZATION
+//TC-0(N*N)
+//SC-0(N*N)
+//TABULATION
 class Solution {
     public int minFallingPathSum(int[][] matrix) {
-        int min=Integer.MAX_VALUE;
-        
         int[][] dp=new int[matrix.length][matrix[0].length];
+        
         for(int i=0;i<matrix.length;i++){
+            dp[0][i]=matrix[0][i];
+        }//BASE CASE
+        
+        for(int i=1;i<matrix.length;i++){
             for(int j=0;j<matrix[0].length;j++){
-                dp[i][j]=-1;
+                int up=matrix[i][j]+dp[i-1][j];
+                int upleft=matrix[i][j];
+                
+                if(j-1>=0){
+                    upleft+=dp[i-1][j-1];
+                }else{
+                    upleft+=Math.pow(10,9);
+                }
+                
+                int upright=matrix[i][j];
+                
+                if(j+1<matrix.length){
+                    upright+=dp[i-1][j+1];
+                }else{
+                    upright+=Math.pow(10,9);
+                }
+                
+                dp[i][j]=Math.min(up,Math.min(upleft,upright));
             }
         }
-        
+        int min=Integer.MAX_VALUE;
         for(int i=0;i<matrix.length;i++){
-            int curr=helper(matrix.length-1,i,matrix,dp);
-            min=Math.min(min,curr);
+            min=Math.min(min,dp[matrix.length-1][i]);
         }
-        
         return min;
-    }
-    public int helper(int row,int col,int[][] matrix,int[][] dp){
-        if(col<0 || col>=matrix.length){
-            return (int)Math.pow(10,9);
-        }
-        
-        if(row==0){
-            return matrix[0][col];
-        }
-        if(dp[row][col]!=-1){
-            return dp[row][col];
-        }
-                
-        int up=matrix[row][col]+helper(row-1,col,matrix,dp);
-        int up_left=matrix[row][col]+helper(row-1,col-1,matrix,dp);
-        int up_right=matrix[row][col]+helper(row-1,col+1,matrix,dp);
-        
-        return dp[row][col]=(int)Math.min(up,Math.min(up_left,up_right));
     }
 }
