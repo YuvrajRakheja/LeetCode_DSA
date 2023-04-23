@@ -1,22 +1,40 @@
+//TC-0(N^N)
+//SC-0(N*N+N)//DP SPACE+AUXILLIARY STACK SPACE
+//MEMOIZATION
 class Solution {
-        public int minFallingPathSum(int[][] matrix) {
-            int n = matrix.length;
-            int[][] dp = new int[n + 1][n + 2];
-
-            // The DP walls should be out-of-scope hence Integer.MAX_VALUE; They are used for code ease
-            for (int r = 0; r < dp.length; r++) {
-                dp[r][0] = Integer.MAX_VALUE;
-                dp[r][dp[0].length - 1] = Integer.MAX_VALUE;
+    public int minFallingPathSum(int[][] matrix) {
+        int min=Integer.MAX_VALUE;
+        
+        int[][] dp=new int[matrix.length][matrix[0].length];
+        for(int i=0;i<matrix.length;i++){
+            for(int j=0;j<matrix[0].length;j++){
+                dp[i][j]=-1;
             }
-
-            for (int r = n - 1; r >= 0; r--) {
-                for (int c = 0; c < n; c++) {
-                    int[] moves = new int[]{dp[r + 1][c], dp[r + 1][c + 1], dp[r + 1][c + 2]};
-                    dp[r][c + 1] = matrix[r][c] + Arrays.stream(moves).min().getAsInt();
-                }
-            }
-            
-            return Arrays.stream(dp[0]).min().getAsInt();
-
         }
+        
+        for(int i=0;i<matrix.length;i++){
+            int curr=helper(matrix.length-1,i,matrix,dp);
+            min=Math.min(min,curr);
+        }
+        
+        return min;
     }
+    public int helper(int row,int col,int[][] matrix,int[][] dp){
+        if(col<0 || col>=matrix.length){
+            return (int)Math.pow(10,9);
+        }
+        
+        if(row==0){
+            return matrix[0][col];
+        }
+        if(dp[row][col]!=-1){
+            return dp[row][col];
+        }
+                
+        int up=matrix[row][col]+helper(row-1,col,matrix,dp);
+        int up_left=matrix[row][col]+helper(row-1,col-1,matrix,dp);
+        int up_right=matrix[row][col]+helper(row-1,col+1,matrix,dp);
+        
+        return dp[row][col]=(int)Math.min(up,Math.min(up_left,up_right));
+    }
+}
