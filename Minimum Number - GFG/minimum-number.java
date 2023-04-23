@@ -58,17 +58,24 @@ class GFG {
 class Solution {
     public static int minimumNumber(int n, int[] arr) {
         // code here
-        int min=Integer.MAX_VALUE;
+        int gcd=Integer.MAX_VALUE;
+        
+        //method 2 by gcd method
         
         for(int i=0;i<n;i++){
-            min=Math.min(min,arr[i]);
+            gcd=Math.min(gcd,arr[i]);
         }
+        
         for(int i=0;i<n;i++){
-            if(arr[i]%min!=0){
-                return 1;//as it is not divisible by min also so min is 1
+            int n1=gcd,n2=arr[i];
+            while(n1>0 && n2>0){
+                if(n1>n2)   n1=n1%n2;
+                else    n2=n2%n1;
             }
+            if(n1==0)   gcd=n2;
+            else    gcd=n1;
         }
-        return min;
+        return gcd;
     }
 }
         
