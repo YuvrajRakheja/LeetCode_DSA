@@ -1,6 +1,6 @@
-//TC-0(M+N)+0(N)FOR REVERSING
-//SC-0(M*N)+0(M+N)+0(M) A.STACK SPACE
-//MEMOIZATION
+//TC-0(M*N)+0(N)FOR REVERSING
+//SC-0(M*N)+0(M) A.STACK SPACE
+//TABULATION
 class Solution {
     public int minInsertions(String s) {
         return s.length()-longestPalindromeSubseq
@@ -15,23 +15,24 @@ class Solution {
         return lcs(s,sb.toString());
     }
     public int lcs(String s1,String s2){
-        int[][] dp=new int[s1.length()][s2.length()];
+        int[][] dp=new int[s1.length()+1][s2.length()+1];
+        
         for(int i=0;i<s1.length();i++){
-            for(int j=0;j<s2.length();j++){
-                dp[i][j]=-1;
+            dp[i][0]=0;    
+        }
+        for(int j=0;j<s2.length();j++){
+            dp[0][j]=0;    
+        }//negative base case of recurssion
+        
+        for(int i=1;i<=s1.length();i++){
+            for(int j=1;j<=s2.length();j++){
+                if(s1.charAt(i-1)==s2.charAt(j-1)){
+                    dp[i][j]=1+dp[i-1][j-1];
+                }else{
+                    dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);
+                }
             }
         }
-        return helper(s1.length()-1,s2.length()-1,s1,s2,dp);
-    }
-    public int helper(int idx1,int idx2,String s1,String s2,int[][] dp){
-        if(idx1<0 || idx2<0){
-            return 0;
-        }
-        if(dp[idx1][idx2]!=-1)  return dp[idx1][idx2];
-        
-        if(s1.charAt(idx1)==s2.charAt(idx2)){
-            return dp[idx1][idx2]=1+helper(idx1-1,idx2-1,s1,s2,dp);
-        }
-        return dp[idx1][idx2]=(int)Math.max(helper(idx1-1,idx2,s1,s2,dp),helper(idx1,idx2-1,s1,s2,dp));
+        return dp[s1.length()][s2.length()];
     }
 }
