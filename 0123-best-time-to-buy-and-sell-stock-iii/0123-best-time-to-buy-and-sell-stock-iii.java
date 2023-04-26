@@ -1,29 +1,32 @@
 //TC-0(N*N)
-//SC-0(N*3*2)+0(N)
-//MEMOIZATION
+//SC-0(N*3*2)
+//Tabulation
 class Solution {
     public int maxProfit(int[] prices) {
-        int[][][] dp=new int[prices.length][2][3];//prices n,2 buy or sell 3 (0,1,2)transaction
-        for(int i=0;i<dp.length;i++){
+        int[][][] dp=new int[prices.length+1][2][3];//prices n,2 buy or sell 3 (0,1,2)transaction
+        
+        for(int i=0;i<prices.length;i++){
             for(int j=0;j<2;j++){
-                for(int k=0;k<3;k++){
-                    dp[i][j][k]=-1;
+                dp[i][j][0]=0;//capacity ==0 return 0 wala base case
+            }
+        }
+        for(int j=0;j<2;j++){
+            for(int k=0;k<3;k++){
+                dp[prices.length][j][k]=0;//idx==n wala base case
+            }
+        }
+        
+        for(int i=prices.length-1;i>=0;i--){
+            for(int buy=0;buy<2;buy++){
+                for(int cap=1;cap<3;cap++){
+                    if(buy==1){
+                        dp[i][buy][cap]=Math.max(-prices[i]+dp[i+1][0][cap],0+dp[i+1][1][cap]);
+                    }else{
+                        dp[i][buy][cap]=Math.max(prices[i]+dp[i+1][1][cap-1],dp[i+1][0][cap]);
+                    }
                 }
             }
         }
-        return helper(0,1,prices,2,dp);
-    }
-    public int helper(int idx,int buy,int[] prices,int cap,int[][][] dp){
-        if(cap==0)  return 0;
-        if(idx==prices.length)  return 0;
-        if(dp[idx][buy][cap]!=-1)    return dp[idx][buy][cap];
-        
-        int profit=0;
-        if(buy==1){
-            profit=Math.max(-prices[idx]+helper(idx+1,0,prices,cap,dp),0+helper(idx+1,1,prices,cap,dp));
-        }else{//sell
-            profit=Math.max(prices[idx]+helper(idx+1,1,prices,cap-1,dp),0+helper(idx+1,0,prices,cap,dp));
-        }
-        return dp[idx][buy][cap]=profit;                            
+        return dp[0][1][2];        
     }
 }
