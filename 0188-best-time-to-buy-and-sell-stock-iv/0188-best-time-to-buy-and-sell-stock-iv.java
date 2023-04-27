@@ -1,25 +1,26 @@
 //TC-0(N*2*K)
-//SC-0(N*2*K)+0(n)
-//Memoization
+//SC-0(N*2*K)
+//Tabulation
 class Solution {
     public int maxProfit(int k, int[] prices) {
-        int[][] dp=new int[prices.length][k*2];
-        for(int i=0;i<dp.length;i++){
-            for(int j=0;j<2*k;j++){
-                dp[i][j]=-1;
+        int[][] dp=new int[prices.length+1][k*2+1];
+        
+        for(int i=0;i<2*k;i++){
+            dp[prices.length][i]=0;//idx==prices.length return 0;
+        }
+        for(int i=0;i<prices.length;i++){
+            dp[i][2*k]=0;
+        }
+        
+        for(int i=prices.length-1;i>=0;i--){
+            for(int tran_no=2*k-1;tran_no>=0;tran_no--){
+                if(tran_no%2==0){//buy case
+                    dp[i][tran_no]=(int)Math.max(-prices[i]+dp[i+1][tran_no+1],0+dp[i+1][tran_no]);//first is we bought share and second we didnt buy 
+                }else{//sell case
+                    dp[i][tran_no]=(int)Math.max(prices[i]+dp[i+1][tran_no+1],0+dp[i+1][tran_no]);//first is sell case and second we didnt sell
+                }
             }
         }
-        return helper(0,prices,0,k,dp);
-    }
-    public int helper(int idx,int[] prices,int cap,int k,int[][] dp){
-        if(idx==prices.length||cap==2*k)  return 0;
-        
-        if(dp[idx][cap]!=-1)    return dp[idx][cap];
-        
-        if(cap%2==0){//buy case
-            return dp[idx][cap]=(int)Math.max(-prices[idx]+helper(idx+1,prices,cap+1,k,dp),0+helper(idx+1,prices,cap,k,dp));//first is we bought share and second we didnt buy 
-        }else{//sell case
-            return dp[idx][cap]=(int)Math.max(prices[idx]+helper(idx+1,prices,cap+1,k,dp),0+helper(idx+1,prices,cap,k,dp));//first is sell case and second we didnt sell
-        }
+        return dp[0][0];
     }
 }
