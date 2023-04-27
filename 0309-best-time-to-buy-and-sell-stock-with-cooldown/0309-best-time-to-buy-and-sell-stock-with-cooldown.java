@@ -1,15 +1,24 @@
+//TC-0(N*2)
+//SC-0(N*2)+0(N)
+//MEMOIZATION
 class Solution {
     public int maxProfit(int[] prices) {
-    if(prices == null || prices.length <= 1) return 0;
-  
-    int b0 = -prices[0], b1 = b0;
-    int s0 = 0, s1 = 0, s2 = 0;
- 
-    for(int i = 1; i < prices.length; i++) {
-    	b0 = Math.max(b1, s2 - prices[i]);
-    	s0 = Math.max(s1, b1 + prices[i]);
-    	b1 = b0; s2 = s1; s1 = s0; 
+        int[][] dp=new int[prices.length][2];
+        for(int i=0;i<prices.length;i++){
+            for(int j=0;j<2;j++){
+                dp[i][j]=-1;
+            }
+        }
+        return helper(0,prices,1,dp);
     }
-    return s0;
-}
+    public int helper(int idx,int[] prices,int buy,int[][] dp){
+        if(idx>=prices.length)  return 0;
+        if(dp[idx][buy]!=-1)    return dp[idx][buy];
+        
+        if(buy==1){
+            return dp[idx][buy]=(int)Math.max(-prices[idx]+helper(idx+1,prices,0,dp),helper(idx+1,prices,1,dp));
+        }else{
+            return dp[idx][buy]=(int)Math.max(prices[idx]+helper(idx+2,prices,1,dp),helper(idx+1,prices,0,dp));
+        }
+    }
 }
