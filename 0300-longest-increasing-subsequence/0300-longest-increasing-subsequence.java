@@ -1,18 +1,39 @@
-//TABULATION
+//TC-0(NLOGN)
+//SC-0(N)
+//BINARY SEARCH
 class Solution {
     public int lengthOfLIS(int[] nums) {
         int maxlen=1;
-        int[] dp=new int[nums.length];
-        Arrays.fill(dp,1);
         
-        for(int i=0;i<nums.length;i++){
-            for(int prev=0;prev<i;prev++){
-                if(nums[i]>nums[prev]){
-                    dp[i]=Math.max(dp[i],1+dp[prev]);
-                }
+        ArrayList<Integer> ans=new ArrayList<>();
+        ans.add(nums[0]);
+        int len=1;
+        
+        for(int i=1;i<nums.length;i++){
+            if(nums[i]>ans.get(ans.size()-1)){
+                ans.add(nums[i]);
+                len++;
+            }else{
+                int idx=getidx(nums[i],ans);
+                ans.set(idx,nums[i]);
             }
-            maxlen=Math.max(maxlen,dp[i]);
         }
-        return maxlen;
+        return len;
+    }
+    public int getidx(int num,ArrayList<Integer> ans){
+        int left=0,right=ans.size()-1;
+        
+        while(left<=right){
+            
+            int mid=left+(right-left)/2;
+            if(ans.get(mid)==num){
+                return mid;
+            }else if(ans.get(mid)>num){
+                right=mid-1;
+            }else{
+                left=mid+1;
+            }
+        }
+        return left;        
     }
 }
