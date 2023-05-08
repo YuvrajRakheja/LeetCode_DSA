@@ -3,12 +3,10 @@ class Solution {
         int tot_sum=0;
                 
         for(int i=0;i<mat.length;i++){
-            for(int j=0;j<mat[0].length;j++){
-                if(i==j||i+j==mat.length-1){
-                    tot_sum+=mat[i][j];
-                }
-            }
+            tot_sum+=mat[i][i]+mat[i][mat.length-1-i];
         }       
+        if(mat.length%2!=0) tot_sum-=mat[mat.length/2][mat[0].length/2];
+        
         return tot_sum;
     }
 }
