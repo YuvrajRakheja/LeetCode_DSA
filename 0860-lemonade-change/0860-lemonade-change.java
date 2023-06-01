@@ -12,12 +12,13 @@ class Solution {
                 chg5--;
             }else{
                 chg20++;
-                if(chg5==0 && chg10==0||(chg5==1||chg5==2) && chg10==0||chg5==0 && chg10>=1) return false;
-                if(chg10!=0){
+                if(chg10>0 && chg5>0){
                     chg5--;
-                    chg10--;    
-                }else{
+                    chg10--;
+                }else if(chg5>=3){
                     chg5-=3;
+                }else{
+                    return false;
                 }
                 
             }    
