@@ -32,39 +32,13 @@ class Solution{
     {
         // code here
         List<Integer> ans=new ArrayList<>();
+        int[] currency=new int[]{2000,500,200,100,50,20,10,5,2,1};
+        int n=currency.length;
         
-        
-        while(N>0){
-            if(N>=2000){
-                ans.add(2000);
-                N-=2000;
-            }else if(N>=500){
-                ans.add(500);
-                N-=500;
-            }else if(N>=200){
-                ans.add(200);
-                N-=200;
-            }else if(N>=100){
-                ans.add(100);
-                N-=100;
-            }else if(N>=50){
-                ans.add(50);
-                N-=50;
-            }else if(N>=20){
-                ans.add(20);
-                N-=20;
-            }else if(N>=10){
-                ans.add(10);
-                N-=10;
-            }else if(N>=5){
-                ans.add(5);
-                N-=5;
-            }else if(N>=2){
-                ans.add(2);
-                N-=2;
-            }else{
-                ans.add(1);
-                N-=1;
+        for(int i=0;i<n;i++){
+            while(N>=currency[i]){
+                N-=currency[i];
+                ans.add(currency[i]);
             }
         }
         return ans;
