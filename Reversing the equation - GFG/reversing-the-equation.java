@@ -47,7 +47,7 @@ class Solution
             }
             ans.append(Integer.toString(num));
             
-            while(j>=0 && (s.charAt(j)<'0'||s.charAt(j)>'9')){
+            if(j>=0 && (s.charAt(j)<'0'||s.charAt(j)>'9')){
                 ans.append(s.charAt(j));
                 j--;
             }
