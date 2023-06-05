@@ -1,10 +1,14 @@
+//TC-0(N)
+//SC-0(1)
 class Solution {
     public boolean canJump(int[] nums) {
-        int n=nums.length;
-        int last=n-1,i,j;
-        for(i=n-2;i>=0;i--){
-            if(i+nums[i]>=last)last=i;
+        int lastindex=nums.length-1;
+        
+        for(int i=nums.length-1;i>=0;i--){
+            if(nums[i]+i>=lastindex){
+                lastindex=i;
+            }
         }
-        return last<=0;
+        return lastindex==0;
     }
 }
