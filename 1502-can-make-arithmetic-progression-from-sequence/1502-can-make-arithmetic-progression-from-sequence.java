@@ -1,10 +1,21 @@
 class Solution {
     public boolean canMakeArithmeticProgression(int[] arr) {
-        Arrays.sort(arr);
-        int diff=arr[1]-arr[0];
+        PriorityQueue<Integer> pq=new PriorityQueue<>();
         
-        for(int i=2;i<arr.length;i++){
-            if(diff!=arr[i]-arr[i-1])     return false;
+        for(int i=0;i<arr.length;i++){
+            pq.add(arr[i]);
+        }
+        int first=pq.remove(),second=pq.remove();
+        
+        int diff=second-first;
+        pq.add(second);
+        
+        while(pq.size()>1){
+            int nfirst=pq.remove(),nsecond=pq.remove();
+            
+            int ndf=nsecond-nfirst;
+            if(diff!=ndf)   return false;
+            pq.add(nsecond);
         }
         return true;
     }
