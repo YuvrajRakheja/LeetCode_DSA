@@ -1,34 +1,42 @@
 //TC-0(N)
 //SC-0(N)
-//BRUTE
+//ANNOTIZED SC AS POP IS NOT ALWAYS O(N) IT IS SOMETIMES 0(1)
 class MyQueue {
-    Stack<Integer> st1;
-    Stack<Integer> st2;
+    Stack<Integer> input;
+    Stack<Integer> output;
     public MyQueue() {
-        st1=new Stack<>();
-        st2=new Stack<>();
+        input=new Stack<>();
+        output=new Stack<>();
     }
     
     public void push(int x) {
-        while(!st1.isEmpty()){
-            st2.push(st1.pop());
-        }
-        st1.push(x);
-        while(!st2.isEmpty()){
-            st1.push(st2.pop());
-        }
+        input.push(x);        
     }
     
     public int pop() {
-        return st1.pop();
+        if(output.isEmpty()){
+            while(!input.isEmpty()){
+                output.push(input.pop());
+            }
+            return output.pop();
+        }else{
+            return output.pop();
+        }
     }
     
     public int peek() {
-        return st1.peek();
+        if(output.isEmpty()){
+            while(!input.isEmpty()){
+                output.push(input.pop());
+            }
+            return output.peek();
+        }else{
+            return output.peek();
+        }
     }
     
     public boolean empty() {
-        return st1.size()==0;
+        return input.isEmpty() && output.isEmpty();
     }
 }
 
