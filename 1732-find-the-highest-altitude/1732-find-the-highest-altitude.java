@@ -1,11 +1,13 @@
+//TC-0(N)
+//SC-0(1)
 class Solution {
     public int largestAltitude(int[] gain) {
-        int[] alt=new int[gain.length+1];
+       int alt=0,maxalt=0;
         
-        for(int i=1;i<alt.length;i++){
-            alt[i]=alt[i-1]+gain[i-1];
+        for(int i=0;i<gain.length;i++){
+            alt+=gain[i];
+            maxalt=Math.max(alt,maxalt);
         }
-        Arrays.sort(alt);
-        return alt[alt.length-1];
+        return maxalt;
     }
 }
