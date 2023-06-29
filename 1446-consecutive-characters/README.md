@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/consecutive-characters/">1446. Consecutive Characters</a></h2><h3>Easy</h3><hr><div><p>The <strong>power</strong> of the string is the maximum length of a non-empty substring that contains only one unique character.</p>
+<h2><a href="https://leetcode.com/problems/consecutive-characters/solution/">1446. Consecutive Characters</a></h2><h3>Easy</h3><hr><div><p>The <strong>power</strong> of the string is the maximum length of a non-empty substring that contains only one unique character.</p>
 
 <p>Given a string <code>s</code>, return <em>the <strong>power</strong> of</em> <code>s</code>.</p>
 
