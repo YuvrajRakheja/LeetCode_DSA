@@ -1,12 +1,26 @@
+//TC-0(LOGN)
+//SC-0(1)
+//BINARY SEARCH
+
 class Solution {
     public int peakIndexInMountainArray(int[] arr) {
-        int i=0;
+        if(arr.length==1)    return 0;
         
-        while(i<arr.length-1){
-            if(arr[i]>arr[i+1]){
-                return i;
+        if(arr[0]>arr[1])   return 1;
+        if(arr[arr.length-2]<arr[arr.length-1])    return arr.length-1;
+        
+        int low=1,high=arr.length-2;
+        
+        while(low<=high){
+            int mid=(low+high)/2;
+            
+            if(arr[mid-1]<arr[mid] && arr[mid]>arr[mid+1]){
+                return mid;
+            }else if(arr[mid]<arr[mid+1]){
+                low=mid+1;
+            }else{
+                high=mid-1;
             }
-            i++;
         }
         return -1;
     }
