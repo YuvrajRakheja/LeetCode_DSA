@@ -1,12 +1,13 @@
 class Solution {
     public int peakIndexInMountainArray(int[] arr) {
-        int left=0,n=arr.length;
+        int i=0;
         
-        //increasing
-        while(left<n-1 && arr[left+1]>arr[left]){
-            left++;
+        while(i<arr.length-1){
+            if(arr[i]>arr[i+1]){
+                return i;
+            }
+            i++;
         }
-        return left;
-        
+        return -1;
     }
 }
